@@ -69,7 +69,7 @@ public class Bootstrap implements CommandLineRunner {
         user4.setAge(78);
         user4.setPassword("1234567");
         user4.setGender("female");
-        user.setEmail("kowalska@yahoo.com");
+        user4.setEmail("kowalska@yahoo.com");
         user4.setPersonalIdNumber("213135467");
 
         Stream.of(user, user1, user2, user3, user4)
