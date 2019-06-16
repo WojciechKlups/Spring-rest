@@ -34,7 +34,7 @@ public class UserService {
     public UserDto getUserByEmail(String email){
         UserDto userDto = userRepository.findUserByEmail(email)
                 .map(user -> userMapper.userToUserDto(user))
-                .orElseThrow();
+                .orElseThrow(ResourceNotFoundException::new);
 
         return userDto;
     }

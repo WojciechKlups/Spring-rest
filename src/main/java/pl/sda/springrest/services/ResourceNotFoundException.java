@@ -1,7 +1,7 @@
 package pl.sda.springrest.services;
 
 public class ResourceNotFoundException extends RuntimeException {
-    
+
     public ResourceNotFoundException(Throwable cause) {
         super(cause);
     }
