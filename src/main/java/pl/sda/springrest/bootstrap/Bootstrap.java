@@ -33,6 +33,7 @@ public class Bootstrap implements CommandLineRunner {
         user.setAge(34);
         user.setPassword("1234");
         user.setGender("male");
+        user.setEmail("kowalski@gmail.com");
         user.setPersonalIdNumber("982334572");
 
         User user1 = new User();
@@ -41,6 +42,7 @@ public class Bootstrap implements CommandLineRunner {
         user1.setAge(24);
         user1.setPassword("0987");
         user1.setGender("male");
+        user1.setEmail("nowak@gmail.com");
         user1.setPersonalIdNumber("172364871");
 
         User user2 = new User();
@@ -49,6 +51,7 @@ public class Bootstrap implements CommandLineRunner {
         user2.setAge(56);
         user2.setPassword("123456");
         user2.setGender("male");
+        user2.setEmail("iksinski@o2.pl");
         user2.setPersonalIdNumber("987946545");
 
         User user3 = new User();
@@ -57,6 +60,7 @@ public class Bootstrap implements CommandLineRunner {
         user3.setAge(38);
         user3.setPassword("098765");
         user3.setGender("female");
+        user3.setEmail("igrekowska@o2.pl");
         user3.setPersonalIdNumber("979464132");
 
         User user4 = new User();
@@ -65,6 +69,7 @@ public class Bootstrap implements CommandLineRunner {
         user4.setAge(78);
         user4.setPassword("1234567");
         user4.setGender("female");
+        user.setEmail("kowalska@yahoo.com");
         user4.setPersonalIdNumber("213135467");
 
         Stream.of(user, user1, user2, user3, user4)

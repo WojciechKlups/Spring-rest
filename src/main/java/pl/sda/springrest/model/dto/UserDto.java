@@ -12,4 +12,5 @@ public class UserDto {
 
     private int age;
     private String gender;
+    private String email;
 }
