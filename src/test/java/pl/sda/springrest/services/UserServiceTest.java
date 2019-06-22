@@ -133,4 +133,16 @@ public class UserServiceTest {
         //then
         assertThat(userDto.getEmail(), equalTo("pablo@picasso.com"));
     }
+
+    //TODO
+//    @Test
+//    public void patchUser(){
+//        //given
+//        User userToUpdate = User.builder().id(1L).email("jankowalski@wp.pl").age(15).firstname("Jan").build();
+//        User userInDataBase = User.builder().id(1L).email("jankowalski@wp.pl").age(15).firstname("Jan").build();
+//        //when
+//
+//        //then
+//    }
+
 }
