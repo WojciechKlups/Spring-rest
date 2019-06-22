@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.sda.springrest.model.dto.UserDto;
 import pl.sda.springrest.services.UserService;
 
@@ -17,11 +18,12 @@ import java.util.Arrays;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pl.sda.springrest.controllers.AbstractRestControllerTest.asJsonString;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
@@ -70,19 +72,48 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getUserByEmail() {
+    public void getUserByEmail() throws Exception {
+        UserDto userDto = UserDto.builder().id(1L).firstname("Pawel").lastname("Iksinski").email("iksinski@gamil.com").build();
+
+        when(userService.getUserByEmail(anyString())).thenReturn(userDto);
+
+        mockMvc.perform(get(UserController.BASE_URL + "/user").param("email", userDto.getEmail()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstname", equalTo("Pawel")))
+                .andExpect(jsonPath("$.lastname", equalTo("Iksinski")))
+                .andExpect(jsonPath("$.id", equalTo(1)));
     }
 
     @Test
-    public void createNewUser() {
+    public void createNewUser() throws Exception {
+        UserDto userDto = UserDto.builder().id(1L).firstname("Adam").lastname("Nowak").build();
+        when(userService.createNewUser(any(UserDto.class))).thenReturn(userDto);
+
+        mockMvc.perform(post(UserController.BASE_URL + "/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", equalTo(1)))
+                .andExpect(jsonPath("$.firstname", equalTo("Adam")))
+                .andExpect(jsonPath("$.lastname", equalTo("Nowak")));
+
     }
 
     @Test
-    public void deleteUser() {
+    public void deleteUser() throws Exception {
+        Long id = 1L;
+
+        mockMvc.perform(delete(UserController.BASE_URL + "/users/1"))
+                .andExpect(status().isOk());
+
+        verify(userService, times(1)).deleteById(id);
+
     }
 
     @Test
     public void updateUser() {
+
+
     }
 
     @Test
