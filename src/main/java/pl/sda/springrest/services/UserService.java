@@ -38,4 +38,13 @@ public class UserService {
 
         return userDto;
     }
+
+    public UserDto getUserById(Long id){
+
+        UserDto userDto = userRepository.findById(id)
+                .map(user -> userMapper.userToUserDto(user))
+                .orElseThrow(ResourceNotFoundException::new);
+
+        return userDto;
+    }
 }

@@ -2,10 +2,7 @@ package pl.sda.springrest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.sda.springrest.model.dto.UserDto;
 import pl.sda.springrest.model.dto.UserListDto;
 import pl.sda.springrest.services.UserService;
@@ -30,5 +27,11 @@ public class UserController {
     public UserListDto getAllUsers(){
         List<UserDto> allUsers = userService.getAllUsers();
         return new UserListDto(allUsers);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto getUserById(@PathVariable Long id){
+       return userService.getUserById(id);
     }
 }
