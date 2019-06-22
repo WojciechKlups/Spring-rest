@@ -31,7 +31,7 @@ public class UserService {
         return userDtos;
     }
 
-    public UserDto getUserByEmail(String email){
+    public UserDto getUserByEmail(String email) {
         UserDto userDto = userRepository.findUserByEmail(email)
                 .map(user -> userMapper.userToUserDto(user))
                 .orElseThrow(ResourceNotFoundException::new);
@@ -39,7 +39,7 @@ public class UserService {
         return userDto;
     }
 
-    public UserDto getUserById(Long id){
+    public UserDto getUserById(Long id) {
 
         UserDto userDto = userRepository.findById(id)
                 .map(user -> userMapper.userToUserDto(user))
@@ -48,18 +48,18 @@ public class UserService {
         return userDto;
     }
 
-    public void deleteById(Long id){
-       userRepository.deleteById(id);
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
-    public UserDto createNewUser(UserDto userDto){
+    public UserDto createNewUser(UserDto userDto) {
         User newUserToSave = userMapper.userDtoToUser(userDto);
         userRepository.save(newUserToSave);
         UserDto userDtoSaved = userMapper.userToUserDto(newUserToSave);
         return userDtoSaved;
     }
 
-    public UserDto updateUser(UserDto userDto, Long id){
+    public UserDto updateUser(UserDto userDto, Long id) {
         User user = userRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         User mappedUser = userMapper.userDtoToUser(userDto);
         mappedUser.setId(id);
@@ -68,5 +68,30 @@ public class UserService {
 
         User savedUser = userRepository.save(mappedUser);
         return userMapper.userToUserDto(savedUser);
+    }
+
+    public UserDto patchUser(UserDto userDto, Long id) {
+        User user = userRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+
+        if (user.getId() != null && !user.getId().equals(userDto.getId())) {
+            user.setId(userDto.getId());
+        }
+        if (user.getFirstname() != null && !user.getFirstname().equals(userDto.getFirstname())) {
+            user.setFirstname(userDto.getFirstname());
+        }
+        if (user.getLastname() != null && !user.getLastname().equals(userDto.getLastname())) {
+            user.setLastname(userDto.getLastname());
+        }
+        if (user.getAge() != 0 && user.getAge() != (userDto.getAge())) {
+            user.setAge(userDto.getAge());
+        }
+        if (user.getEmail() != null && !user.getEmail().equals(userDto.getEmail())) {
+            user.setEmail(userDto.getEmail());
+        }
+        if (user.getGender() != null && !user.getGender().equals(userDto.getGender())) {
+            user.setGender(userDto.getGender());
+        }
+
+        return userMapper.userToUserDto(user);
     }
 }

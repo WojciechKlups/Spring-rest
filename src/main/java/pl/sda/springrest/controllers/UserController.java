@@ -14,49 +14,55 @@ import java.util.List;
 @RequestMapping(UserController.BASE_URL)
 public class UserController {
 
-   public static final String BASE_URL = "/api/v1";
+    public static final String BASE_URL = "/api/v1";
 
-   private UserService userService;
+    private UserService userService;
 
-   @Autowired
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public UserListDto getAllUsers(){
+    public UserListDto getAllUsers() {
         List<UserDto> allUsers = userService.getAllUsers();
         return new UserListDto(allUsers);
     }
 
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getUserById(@PathVariable Long id){
-       return userService.getUserById(id);
+    public UserDto getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
     @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getUserByEmail(@RequestParam String email){
-       return userService.getUserByEmail(email);
+    public UserDto getUserByEmail(@RequestParam String email) {
+        return userService.getUserByEmail(email);
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createNewUser(@RequestBody UserDto userDto){
-       return userService.createNewUser(userDto);
+    public UserDto createNewUser(@RequestBody UserDto userDto) {
+        return userService.createNewUser(userDto);
     }
 
     @DeleteMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable Long id){
-       userService.deleteById(id);
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
     }
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDto updateUser(@RequestBody UserDto userDto, @PathVariable Long id) {
-       return userService.updateUser(userDto,id);
+        return userService.updateUser(userDto, id);
+    }
+
+    @PatchMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto patchUser(@RequestBody UserDto userDto, @PathVariable Long id) {
+        return userService.patchUser(userDto, id);
     }
 }
