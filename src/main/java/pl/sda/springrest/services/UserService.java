@@ -58,4 +58,15 @@ public class UserService {
         UserDto userDtoSaved = userMapper.userToUserDto(newUserToSave);
         return userDtoSaved;
     }
+
+    public UserDto updateUser(UserDto userDto, Long id){
+        User user = userRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        User mappedUser = userMapper.userDtoToUser(userDto);
+        mappedUser.setId(id);
+        mappedUser.setPassword(user.getPassword());
+        mappedUser.setPersonalIdNumber(user.getPersonalIdNumber());
+
+        User savedUser = userRepository.save(mappedUser);
+        return userMapper.userToUserDto(savedUser);
+    }
 }
