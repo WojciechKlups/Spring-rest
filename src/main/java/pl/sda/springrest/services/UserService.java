@@ -47,4 +47,15 @@ public class UserService {
 
         return userDto;
     }
+
+    public void deleteById(Long id){
+       userRepository.deleteById(id);
+    }
+
+    public UserDto createNewUser(UserDto userDto){
+        User newUserToSave = userMapper.userDtoToUser(userDto);
+        userRepository.save(newUserToSave);
+        UserDto userDtoSaved = userMapper.userToUserDto(newUserToSave);
+        return userDtoSaved;
+    }
 }
