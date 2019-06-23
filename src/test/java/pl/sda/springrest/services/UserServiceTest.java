@@ -134,15 +134,27 @@ public class UserServiceTest {
         assertThat(userDto.getEmail(), equalTo("pablo@picasso.com"));
     }
 
-    //TODO
-//    @Test
-//    public void patchUser(){
-//        //given
-//        User userToUpdate = User.builder().id(1L).email("jankowalski@wp.pl").age(15).firstname("Jan").build();
-//        User userInDataBase = User.builder().id(1L).email("jankowalski@wp.pl").age(15).firstname("Jan").build();
-//        //when
-//
-//        //then
-//    }
+
+    @Test
+    public void patchUser(){
+        //given
+        User userToPatch = User.builder().id(123L).email("jankowalski@gmail.com").age(25).build();
+        User userInDataBase = User.builder()
+                .id(1L).email("jankowalski@wp.pl").age(15).firstname("Jan").lastname("Kowalski")
+                .gender("male").personalIdNumber("90048566423").password("szakalaka").build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userInDataBase));
+
+        UserDto userDto = UserMapper.INSTANCE.userToUserDto(userToPatch);
+        //when
+        UserDto userDto1 = userService.patchUser(userDto, 1L);
+        //then
+        assertThat(userDto1.getEmail(), equalTo("jankowalski@gmail.com"));
+        assertThat(userDto1.getAge(), equalTo(25));
+        assertThat(userDto1.getId(), equalTo(123L));
+        assertThat(userDto1.getFirstname(), equalTo("Jan"));
+        assertThat(userDto1.getLastname(), equalTo("Kowalski"));
+        assertThat(userDto1.getGender(), equalTo("male"));
+    }
 
 }

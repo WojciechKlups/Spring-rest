@@ -14,6 +14,7 @@ import pl.sda.springrest.model.dto.UserDto;
 import pl.sda.springrest.services.UserService;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -110,10 +111,24 @@ public class UserControllerTest {
 
     }
 
+
     @Test
-    public void updateUser() {
+    public void updateUser() throws Exception {
+        UserDto userToUpdate = UserDto.builder()
+                .id(123L).firstname("Adam").lastname("Nowak").email("nowak@gmail.com").age(35).gender("male").build();
 
+        when(userService.updateUser(any(UserDto.class), anyLong())).thenReturn(userToUpdate);
 
+        mockMvc.perform(put(UserController.BASE_URL + "/users/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString((userToUpdate))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(123)))
+                .andExpect(jsonPath("$.firstname", equalTo("Adam")))
+                .andExpect(jsonPath("$.lastname", equalTo("Nowak")))
+                .andExpect(jsonPath("$.email", equalTo("nowak@gmail.com")))
+                .andExpect(jsonPath("$.age", equalTo(35)))
+                .andExpect(jsonPath("$.gender", equalTo("male")));
     }
 
     @Test

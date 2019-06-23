@@ -73,25 +73,29 @@ public class UserService {
     public UserDto patchUser(UserDto userDto, Long id) {
         User user = userRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
 
-        if (user.getId() != null && !user.getId().equals(userDto.getId())) {
-            user.setId(userDto.getId());
-        }
-        if (user.getFirstname() != null && !user.getFirstname().equals(userDto.getFirstname())) {
-            user.setFirstname(userDto.getFirstname());
-        }
-        if (user.getLastname() != null && !user.getLastname().equals(userDto.getLastname())) {
-            user.setLastname(userDto.getLastname());
-        }
-        if (user.getAge() != 0 && user.getAge() != (userDto.getAge())) {
-            user.setAge(userDto.getAge());
-        }
-        if (user.getEmail() != null && !user.getEmail().equals(userDto.getEmail())) {
-            user.setEmail(userDto.getEmail());
-        }
-        if (user.getGender() != null && !user.getGender().equals(userDto.getGender())) {
-            user.setGender(userDto.getGender());
-        }
+        checkUserData(userDto, user);
 
         return userMapper.userToUserDto(user);
+    }
+
+    private void checkUserData(UserDto userDto, User user) {
+        if (userDto.getId() != null && !user.getId().equals(userDto.getId())) {
+            user.setId(userDto.getId());
+        }
+        if (userDto.getFirstname() != null && !user.getFirstname().equals(userDto.getFirstname())) {
+            user.setFirstname(userDto.getFirstname());
+        }
+        if (userDto.getLastname() != null && !user.getLastname().equals(userDto.getLastname())) {
+            user.setLastname(userDto.getLastname());
+        }
+        if (userDto.getAge() != 0 && user.getAge() != (userDto.getAge())) {
+            user.setAge(userDto.getAge());
+        }
+        if (userDto.getEmail() != null && !user.getEmail().equals(userDto.getEmail())) {
+            user.setEmail(userDto.getEmail());
+        }
+        if (userDto.getGender() != null && !user.getGender().equals(userDto.getGender())) {
+            user.setGender(userDto.getGender());
+        }
     }
 }
